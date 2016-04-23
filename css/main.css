@@ -17,19 +17,19 @@
     border: 20px solid black;
     border-radius: 10px;
     height: 200px;
-    width: 700px;
+    width: 900px;
 }
 #white-key-container {
     border: 2px solid black;
     height: 200px;
-    width: 700px;
+    width: 100%;
     display: flex;
 }
 
 #black-key-container {
     display: flex;
     height: 200px;
-    width: 700px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: -202px;
@@ -42,7 +42,7 @@
 }
 
 .black-key {
-    width: 40px;
+    width: 50px;
     height: 140px;
     background-color: black;
     border-radius: 0 0 5px 5px;
@@ -67,4 +67,22 @@ h1 {
     margin: -20px;
     padding: 20px;
     border-radius: 10px;
+}
+
+@media (max-width: 1024px) {
+    .higher-octave {
+        display: none;
+    }
+
+    #keyboard-container {
+        width: 700px;
+    }
+
+    .white-key {
+        width: 100px;
+    }
+
+    .black-key {
+        width: 40px;
+    }
 }
