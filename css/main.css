@@ -1,15 +1,18 @@
 .page-container {
+    background-color: cadetblue;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 #keyboard-container {
+    background-color: ivory;
     display: block;
     border: 20px solid black;
     border-radius: 10px;
@@ -42,6 +45,7 @@
     width: 40px;
     height: 140px;
     background-color: black;
+    border-radius: 0 0 5px 5px;
 }
 
 .black-key-spacer-3x {
@@ -56,6 +60,11 @@
     background-color: grey;
 }
 
-#80px
-#60px
-#160px;
+h1 {
+    font-family: arial;
+    background-color: ivory;
+    font-size: 72px;
+    margin: -20px;
+    padding: 20px;
+    border-radius: 10px;
+}
