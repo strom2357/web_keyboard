@@ -58,6 +58,11 @@
 
 .active {
     background-color: crimson;
+    transition: none;
+}
+
+:not(.active) {
+    transition: 0.1s linear background-color;
 }
 
 .arrow-active {
