@@ -60,12 +60,12 @@ var keyToFrequencyHash = {
     'high-g-sharp': 830.60
 }
 
+var octaveAdjuster = 1.0
 var oscillatorHash = {}
 var runningOscillators = []
 
 document.onkeydown = function(e) {
     e.stopPropagation()
-
     if (e.keyCode == 38) {
         runningOscillators.forEach( function(oscillator) {
             oscillator.detune.value = oscillator.frequency.value * 1.0595
@@ -79,15 +79,21 @@ document.onkeydown = function(e) {
     }
 
     if (e.keyCode == 37) {
-        runningOscillators.forEach( function(oscillator) {
-            oscillator.frequency.value = oscillator.frequency.value * 0.5
-        })
+        octaveAdjuster = Math.max((octaveAdjuster * 0.5), 0.25)
+        if (octaveAdjuster > 0.25) {
+            runningOscillators.forEach(function (oscillator) {
+                oscillator.frequency.value = oscillator.frequency.value * 0.5
+            })
+        }
     }
 
     if (e.keyCode == 39) {
-        runningOscillators.forEach( function(oscillator) {
-            oscillator.frequency.value = oscillator.frequency.value * 2
-        })
+        octaveAdjuster = Math.min((octaveAdjuster * 2), 32)
+        if (octaveAdjuster < 32) {
+            runningOscillators.forEach(function (oscillator) {
+                oscillator.frequency.value = oscillator.frequency.value * 2
+            })
+        }
     }
     var idToUse = inputToKeyHash[e.keyCode]
     if (!idToUse)
@@ -117,7 +123,7 @@ document.onkeyup = function(e) {
 function turnKeyOn(noteValue) {
     if (!oscillatorHash[noteValue]) {
         var oscillator = context.createOscillator();
-        oscillator.frequency.value = keyToFrequencyHash[noteValue]
+        oscillator.frequency.value = keyToFrequencyHash[noteValue] * octaveAdjuster
         oscillator.connect(context.destination)
         oscillator.start(context.currentTime)
         oscillatorHash[noteValue] = oscillator
@@ -128,7 +134,6 @@ function turnKeyOn(noteValue) {
 function turnKeyOff(noteValue) {
     if (!!oscillatorHash[noteValue]) {
         var oscillator = oscillatorHash[noteValue]
-        oscillator.stop(context.currentTime)
         oscillator.stop(context.currentTime)
         oscillatorHash[noteValue] = null
         index = runningOscillators.indexOf(oscillator)
