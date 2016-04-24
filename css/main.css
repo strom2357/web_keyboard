@@ -57,7 +57,11 @@
 }
 
 .active {
-    background-color: grey;
+    background-color: crimson;
+}
+
+.arrow-active {
+    color: crimson;
 }
 
 h1 {
@@ -69,13 +73,25 @@ h1 {
     border-radius: 10px;
 }
 
+.fa {
+    font-size: 72px;
+}
+
+.footer-container {
+    margin-top: 60px;
+}
+
 @media (max-width: 1024px) {
+    h1 {
+        font-size: 60px;
+    }
+
     .higher-octave {
         display: none;
     }
 
     #keyboard-container {
-        width: 700px;
+        width: 600px;
     }
 
     .white-key {

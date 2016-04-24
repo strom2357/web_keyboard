@@ -69,17 +69,27 @@ document.onkeydown = function(e) {
     if (e.keyCode == 38) {
         runningOscillators.forEach( function(oscillator) {
             oscillator.detune.value = oscillator.frequency.value * 1.0595
+            var arrow = document.getElementById("bend-up");
+            arrow.classList.add("arrow-active")
         })
     }
 
     if (e.keyCode == 40) {
         runningOscillators.forEach( function(oscillator) {
             oscillator.detune.value = oscillator.frequency.value * -1.0595
+            var arrow = document.getElementById("bend-down");
+            arrow.classList.add("arrow-active")
         })
     }
 
     if (e.keyCode == 37) {
         octaveAdjuster = Math.max((octaveAdjuster * 0.5), 0.25)
+        if (octaveAdjuster < 1) {
+            var downArrow = document.getElementById("octave-down");
+            downArrow.classList.add("arrow-active")
+            var upArrow = document.getElementById("octave-up");
+            upArrow.classList.remove("arrow-active")
+        }
         if (octaveAdjuster > 0.25) {
             runningOscillators.forEach(function (oscillator) {
                 oscillator.frequency.value = oscillator.frequency.value * 0.5
@@ -89,6 +99,12 @@ document.onkeydown = function(e) {
 
     if (e.keyCode == 39) {
         octaveAdjuster = Math.min((octaveAdjuster * 2), 32)
+        if (octaveAdjuster > 1) {
+            var upArrow = document.getElementById("octave-up");
+            upArrow.classList.add("arrow-active")
+            var downArrow = document.getElementById("octave-down");
+            downArrow.classList.remove("arrow-active")
+        }
         if (octaveAdjuster < 32) {
             runningOscillators.forEach(function (oscillator) {
                 oscillator.frequency.value = oscillator.frequency.value * 2
@@ -106,9 +122,20 @@ document.onkeydown = function(e) {
 }
 
 document.onkeyup = function(e) {
+    if (octaveAdjuster == 1) {
+        var downArrow = document.getElementById("octave-down");
+        downArrow.classList.remove("arrow-active")
+        var upArrow = document.getElementById("octave-up");
+        upArrow.classList.remove("arrow-active")
+    }
+
     if (e.keyCode == 38 || e.keyCode == 40) {
         runningOscillators.forEach( function(oscillator) {
             oscillator.detune.value = 0
+            var downArrow = document.getElementById("bend-down");
+            var upArrow = document.getElementById("bend-up");
+            upArrow.classList.remove("arrow-active")
+            downArrow.classList.remove("arrow-active")
         })
     }
 
