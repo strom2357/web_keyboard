@@ -62,6 +62,8 @@ var keyToFrequencyHash = {
 
 var octaveAdjuster = 1.0
 var oscillatorHash = {}
+var gainHash = {}
+var fadeoutHash = {}
 var runningOscillators = []
 
 document.onkeydown = function(e) {
@@ -150,21 +152,32 @@ document.onkeyup = function(e) {
 function turnKeyOn(noteValue) {
     if (!oscillatorHash[noteValue]) {
         var oscillator = context.createOscillator();
+        var gain = context.createGain();
+        oscillator.connect(gain);
         oscillator.frequency.value = keyToFrequencyHash[noteValue] * octaveAdjuster
-        oscillator.connect(context.destination)
+        gain.connect(context.destination)
         oscillator.start(context.currentTime)
         oscillatorHash[noteValue] = oscillator
+        gainHash[noteValue] = gain
         runningOscillators.push(oscillatorHash[noteValue])
+    } else if(fadeoutHash[noteValue]) {
+        clearTimeout(fadeoutHash[noteValue])
+        gainHash[noteValue].gain.setTargetAtTime(1, context.currentTime, 0.01)
     }
 }
 
 function turnKeyOff(noteValue) {
     if (!!oscillatorHash[noteValue]) {
         var oscillator = oscillatorHash[noteValue]
-        oscillator.stop(context.currentTime)
-        oscillatorHash[noteValue] = null
-        index = runningOscillators.indexOf(oscillator)
-        runningOscillators.splice(index)
+        var gain = gainHash[noteValue]
+        gain.gain.setTargetAtTime(0, context.currentTime, 0.01);
+        fadeoutHash[noteValue] = setTimeout(function() {
+            oscillator.stop(context.currentTime)
+            oscillatorHash[noteValue] = null
+            gainHash[noteValue] = null
+            index = runningOscillators.indexOf(oscillator)
+            runningOscillators.splice(index)
+        }, 100)
     }
 }
 
