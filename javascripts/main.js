@@ -68,7 +68,7 @@ document.onkeydown = function(e) {
     e.stopPropagation()
     if (e.keyCode == 38) {
         runningOscillators.forEach( function(oscillator) {
-            oscillator.detune.value = oscillator.frequency.value * 1.0595
+            oscillator.detune.value = 400
             var arrow = document.getElementById("bend-up");
             arrow.classList.add("arrow-active")
         })
@@ -76,7 +76,7 @@ document.onkeydown = function(e) {
 
     if (e.keyCode == 40) {
         runningOscillators.forEach( function(oscillator) {
-            oscillator.detune.value = oscillator.frequency.value * -1.0595
+            oscillator.detune.value = -400
             var arrow = document.getElementById("bend-down");
             arrow.classList.add("arrow-active")
         })
